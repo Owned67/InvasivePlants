@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Oxide.Core;
 using UnityEngine;
 
 namespace Oxide.Plugins
@@ -18,15 +19,19 @@ namespace Oxide.Plugins
 
         class PluginConfig
         {
+            public bool EnableChatMessasge;
             public bool ReturnItem;
             public List<string> ItemIgnoreListShortnames;
+            public bool CallOnDenyPlantHook;
         }
 
         protected override void LoadDefaultConfig()
         {
             PluginConfig config = new PluginConfig{
+                EnableChatMessasge = true,
                 ReturnItem = true,
-                ItemIgnoreListShortnames = new List<string>() 
+                ItemIgnoreListShortnames = new List<string>(),
+                CallOnDenyPlantHook = false
             };
             Config.WriteObject(config, true);
         }
@@ -70,9 +75,14 @@ namespace Oxide.Plugins
                         return;
                 }
 
-                player.ChatMessage(lang.GetMessage("requiresPlanter", this, player.UserIDString).Replace("{type}", sourceItem.info.displayName.english));
+                if (_config.EnableChatMessasge)
+                    player.ChatMessage(lang.GetMessage("requiresPlanter", this, player.UserIDString).Replace("{type}", sourceItem.info.displayName.english));
+
                 GrowableGenes originalGenes = plant.Genes;
                 plant.Kill(BaseNetworkable.DestroyMode.None);
+
+                if (_config.CallOnDenyPlantHook)
+                    Interface.Call("OnDenyPlant", player, plant.SourceItemDef.shortname, sourceItem.info.displayName.english);
 
                 if (!_config.ReturnItem)
                     return;
