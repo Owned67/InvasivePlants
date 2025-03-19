@@ -6,12 +6,12 @@ Modern solution for unmaintained plugin Agriblock by Death.
 # Configuration
 ```json
 {
-  "Refund": true,
+  "ReturnItem": true,
   "ItemBlacklistShortnames": []
 }
 ```
 **Properties**
-* **Refund (true/false):** Enable/disable returning seeds & clones to players when attempting to plant outside of a planter
+* **ReturnItem (true/false):** Enable/disable returning seeds & clones to players when attempting to plant outside of a planter
 * **ItemIgnoreListShortnames (list strings):** List of item shortnames to ignore planter check for
 
 **Item ignore list example**
