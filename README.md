@@ -7,6 +7,7 @@ Modern solution for unmaintained plugin Agriblock by Death.
 *  `invasiveplants.bypass` Bypass planter check for players with this permission allowing them to plant seeds and clones anywhere.
 
 # Configuration
+**Example**
 ```json
 {
   "EnableChatMessage": true,
