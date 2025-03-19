@@ -5,15 +5,18 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("InvasivePlants", "headtapper", "1.0.0")]
+    [Info("InvasivePlants", "headtapper", "1.0.2")]
     [Description("Seed and clone planting controller. Requires players to plant seeds and clones in planter boxes.")]
     class InvasivePlants : RustPlugin
     {
+        private const string bypassPlanterCheckPermission = "invasiveplants.bypass";
+
         private PluginConfig _config;
 
         #region Config
         void Init()
         {
+            permission.RegisterPermission(bypassPlanterCheckPermission, this);
             _config = Config.ReadObject<PluginConfig>();
         }
 
@@ -53,6 +56,9 @@ namespace Oxide.Plugins
         {
             var player = plan.GetOwnerPlayer();
             if (player == null)
+                return;
+
+            if (permission.UserHasPermission(player.UserIDString, bypassPlanterCheckPermission))
                 return;
 
             var plant = go.GetComponent<GrowableEntity>();
