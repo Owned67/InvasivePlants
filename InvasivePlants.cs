@@ -40,6 +40,10 @@ namespace Oxide.Plugins
             {
                 {"requiresPlanter", "You may only plant {type} inside of a planter!" }
             }, this, "en");
+            lang.RegisterMessages(new Dictionary<string, string>()
+            {
+                {"requiresPlanter": "Vous devez planter {type} dans une jardinière !" }
+            }, this, "fr");
         }
         #endregion
 
