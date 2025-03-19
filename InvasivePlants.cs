@@ -19,7 +19,7 @@ namespace Oxide.Plugins
 
         class PluginConfig
         {
-            public bool EnableChatMessasge;
+            public bool EnableChatMessage;
             public bool ReturnItem;
             public List<string> ItemIgnoreListShortnames;
             public bool CallOnDenyPlantHook;
@@ -28,7 +28,7 @@ namespace Oxide.Plugins
         protected override void LoadDefaultConfig()
         {
             PluginConfig config = new PluginConfig{
-                EnableChatMessasge = true,
+                EnableChatMessage = true,
                 ReturnItem = true,
                 ItemIgnoreListShortnames = new List<string>(),
                 CallOnDenyPlantHook = false
@@ -75,7 +75,7 @@ namespace Oxide.Plugins
                         return;
                 }
 
-                if (_config.EnableChatMessasge)
+                if (_config.EnableChatMessage)
                     player.ChatMessage(lang.GetMessage("requiresPlanter", this, player.UserIDString).Replace("{type}", sourceItem.info.displayName.english));
 
                 GrowableGenes originalGenes = plant.Genes;
