@@ -6,13 +6,17 @@ Modern solution for unmaintained plugin Agriblock by Death.
 # Configuration
 ```json
 {
+  "EnableChatMessage": true,
   "ReturnItem": true,
-  "ItemBlacklistShortnames": []
+  "ItemBlacklistShortnames": [],
+  "CallOnDenyPlantHook": false
 }
 ```
 **Properties**
-* **ReturnItem (true/false):** Enable/disable returning seeds & clones to players when attempting to plant outside of a planter
-* **ItemIgnoreListShortnames (list strings):** List of item shortnames to ignore planter check for
+* **EnableChatMessage:** Enabe/disable sending message to user when attempting to plant outside of a planter.
+* **ReturnItem (true/false):** Enable/disable returning seeds & clones to players when attempting to plant outside of a planter.
+* **ItemIgnoreListShortnames (list strings):** List of item shortnames to ignore planter check for.
+* **CallOnDenyPlantHook:** For developers - If you don't need this or don't know what it's for you can leave it as false. If true this hook will be called when a player is denied planting outside of a planter.
 
 **Item ignore list example**
 ```json
