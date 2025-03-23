@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("InvasivePlants", "headtapper", "1.0.2")]
+    [Info("InvasivePlants", "headtapper", "1.0.3")]
     [Description("Seed and clone planting controller. Requires players to plant seeds and clones in planter boxes.")]
     class InvasivePlants : RustPlugin
     {
@@ -14,11 +14,6 @@ namespace Oxide.Plugins
         private PluginConfig _config;
 
         #region Config
-        void Init()
-        {
-            permission.RegisterPermission(bypassPlanterCheckPermission, this);
-            _config = Config.ReadObject<PluginConfig>();
-        }
 
         class PluginConfig
         {
@@ -41,7 +36,18 @@ namespace Oxide.Plugins
 
         #endregion
 
+        #region Initialization
+
+        void Init()
+        {
+            permission.RegisterPermission(bypassPlanterCheckPermission, this);
+            _config = Config.ReadObject<PluginConfig>();
+        }
+
+        #endregion
+
         #region Localization
+
         protected override void LoadDefaultMessages()
         {
             lang.RegisterMessages(new Dictionary<string, string>()
@@ -49,9 +55,11 @@ namespace Oxide.Plugins
                 {"requiresPlanter", "You may only plant {type} inside of a planter!" }
             }, this, "en");
         }
+
         #endregion
 
         #region Hooks
+
         private void OnEntityBuilt(Planner plan, GameObject go)
         {
             var player = plan.GetOwnerPlayer();
@@ -104,6 +112,7 @@ namespace Oxide.Plugins
                 }
             });
         }
+
         #endregion
     }
 }
