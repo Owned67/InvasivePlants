@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("InvasivePlants", "headtapper", "1.0.3")]
+    [Info("InvasivePlants", "headtapper", "1.0.4")]
     [Description("Seed and clone planting controller. Requires players to plant seeds and clones in planter boxes.")]
     class InvasivePlants : RustPlugin
     {
-        private const string bypassPlanterCheckPermission = "invasiveplants.bypass";
+        private const string BypassPlanterCheckPermission = "invasiveplants.bypass";
 
-        private PluginConfig _config;
+        private PluginConfig Configuration;
 
         #region Config
 
@@ -40,8 +40,8 @@ namespace Oxide.Plugins
 
         void Init()
         {
-            permission.RegisterPermission(bypassPlanterCheckPermission, this);
-            _config = Config.ReadObject<PluginConfig>();
+            permission.RegisterPermission(BypassPlanterCheckPermission, this);
+            Configuration = Config.ReadObject<PluginConfig>();
         }
 
         #endregion
@@ -66,7 +66,7 @@ namespace Oxide.Plugins
             if (player == null)
                 return;
 
-            if (permission.UserHasPermission(player.UserIDString, bypassPlanterCheckPermission))
+            if (permission.UserHasPermission(player.UserIDString, BypassPlanterCheckPermission))
                 return;
 
             var plant = go.GetComponent<GrowableEntity>();
@@ -83,22 +83,22 @@ namespace Oxide.Plugins
                 if (sourceItem == null)
                     return;
 
-                foreach (string ignoredShortname in _config.ItemIgnoreListShortnames)
+                foreach (string ignoredShortname in Configuration.ItemIgnoreListShortnames)
                 {
                     if (sourceItem.info.shortname.Equals(ignoredShortname))
                         return;
                 }
 
-                if (_config.EnableChatMessage)
+                if (Configuration.EnableChatMessage)
                     player.ChatMessage(lang.GetMessage("requiresPlanter", this, player.UserIDString).Replace("{type}", sourceItem.info.displayName.english));
 
                 GrowableGenes originalGenes = plant.Genes;
                 plant.Kill(BaseNetworkable.DestroyMode.None);
 
-                if (_config.CallOnDenyPlantHook)
+                if (Configuration.CallOnDenyPlantHook)
                     Interface.Call("OnDenyPlant", player, plant.SourceItemDef.shortname, sourceItem.info.displayName.english);
 
-                if (!_config.ReturnItem)
+                if (!Configuration.ReturnItem)
                     return;
 
                 var returnItem = ItemManager.CreateByName(sourceItem.info.shortname, 1);
